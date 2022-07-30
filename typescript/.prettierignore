@@ -1,0 +1,15 @@
+# Ignore artifacts
+build
+coverage
+
+public
+.vscode
+node_modules
+package-lock.json
+package.json
+README.md
+.eslintrc.js
+.eslintignore
+.gitignore
+.prettierrc.json
+cypress.config.json
