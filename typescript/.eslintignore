@@ -3,6 +3,7 @@ build
 public
 .vscode
 !.eslintrc.js
+.eslintrc.js
 cypress.config.js
 .prettierrc.json
 tailwind.config.js
