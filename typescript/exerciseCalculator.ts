@@ -14,36 +14,36 @@ interface ExercisesResults {
 	average: number;
 }
 
-interface TrainData {
-	trainTimes: Array<number>;
-	target: number;
-}
+// interface TrainData {
+// 	daily_exercises: Array<number>;
+// 	target: number;
+// }
 
-const parseArguments = (args: Array<string>): TrainData => {
-	if (args.length < 4) throw new Error('Not enough arguments');
+// const parseArguments = (args: Array<string>): TrainData => {
+// 	if (args.length < 4) throw new Error('Not enough arguments');
+//
+// 	const daily_exercises = args.slice(3).map((time) => {
+// 		if (isNaN(Number(time))) {
+// 			throw new Error('Provided values were not numbers!');
+// 		}
+// 		return Number(time);
+// 	});
+// 	const target = isNaN(Number(args[2])) ? 0 : Number(args[2]);
+//
+// 	return {
+// 		daily_exercises,
+// 		target,
+// 	};
+// };
 
-	const trainTimes = args.slice(3).map((time) => {
-		if (isNaN(Number(time))) {
-			throw new Error('Provided values were not numbers!');
-		}
-		return Number(time);
-	});
-	const target = isNaN(Number(args[2])) ? 0 : Number(args[2]);
-
-	return {
-		trainTimes,
-		target,
-	};
-};
-
-const calculateExercises = (
-	trainTimes: Array<number>,
+export const calculateExercises = (
+	daily_exercises: Array<number>,
 	target: number
 ): ExercisesResults => {
-	const periodLength = trainTimes.length;
-	const trainingDays = trainTimes.filter((time) => time > 0).length;
+	const periodLength = daily_exercises.length;
+	const trainingDays = daily_exercises.filter((time) => time > 0).length;
 	const average =
-		trainTimes.reduce((acc, curr) => acc + curr, 0) / periodLength;
+		daily_exercises.reduce((acc, curr) => acc + curr, 0) / periodLength;
 	const success = average >= target;
 	const rating = success ? 3 : average >= target * 0.8 ? 2 : 1;
 	const ratingDescription = success
@@ -63,16 +63,15 @@ const calculateExercises = (
 	};
 };
 
-try {
-	const { trainTimes, target } = parseArguments(process.argv);
-	const result = calculateExercises(trainTimes, target);
-	console.log(result);
-} catch (error: unknown) {
-	let errorMessage = 'Something went wrong!';
-	if (error instanceof Error) {
-		errorMessage += ' Error: ' + error.message;
-	}
-	console.log(errorMessage);
-}
+// try {
+// 	const { daily_exercises, target } = parseArguments(process.argv);
+// 	const result = calculateExercises(daily_exercises, target);
+// 	console.log(result);
+// } catch (error: unknown) {
+// 	let errorMessage = 'Something went wrong!';
+// 	if (error instanceof Error) {
+// 		errorMessage += ' Error: ' + error.message;
+// 	}
+// 	console.log(errorMessage);
+// }
 
-export {};

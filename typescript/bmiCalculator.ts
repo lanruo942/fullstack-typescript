@@ -4,25 +4,25 @@
  * @LastEditors: Summer Lee lee@summer.today
  * @LastEditTime: 2022-07-25 18:14:35
  */
-interface BodyTypes {
-	[key: string]: number;
-}
+// interface BodyTypes {
+// 	[key: string]: number;
+// }
 
-const parseArguments = (args: Array<string>): BodyTypes => {
-	if (args.length < 4) throw new Error('Not enough arguments');
-	if (args.length > 4) throw new Error('Too many arguments');
+// const parseArguments = (args: Array<string>): BodyTypes => {
+// 	if (args.length < 4) throw new Error('Not enough arguments');
+// 	if (args.length > 4) throw new Error('Too many arguments');
+//
+// 	if (!isNaN(Number(args[2])) && !isNaN(Number(args[3]))) {
+// 		return {
+// 			height: Number(args[2]),
+// 			weight: Number(args[3]),
+// 		};
+// 	} else {
+// 		throw new Error('Provided values were not numbers!');
+// 	}
+// };
 
-	if (!isNaN(Number(args[2])) && !isNaN(Number(args[3]))) {
-		return {
-			height: Number(args[2]),
-			weight: Number(args[3]),
-		};
-	} else {
-		throw new Error('Provided values were not numbers!');
-	}
-};
-
-const calculateBmi = (height: number, weight: number): string => {
+export const calculateBmi = (height: number, weight: number): string => {
 	height = height / 100;
 	const bmi: number = weight / (height * height);
 
@@ -45,15 +45,14 @@ const calculateBmi = (height: number, weight: number): string => {
 	}
 };
 
-try {
-	const { height, weight } = parseArguments(process.argv);
-	console.log(calculateBmi(height, weight));
-} catch (error: unknown) {
-	let errorMessage = 'Something went wrong!';
-	if (error instanceof Error) {
-		errorMessage += ' Error: ' + error.message;
-	}
-	console.log(errorMessage);
-}
+// try {
+// 	const { height, weight } = parseArguments(process.argv);
+// 	console.log(calculateBmi(height, weight));
+// } catch (error: unknown) {
+// 	let errorMessage = 'Something went wrong!';
+// 	if (error instanceof Error) {
+// 		errorMessage += ' Error: ' + error.message;
+// 	}
+// 	console.log(errorMessage);
+// }
 
-export default calculateBmi;
