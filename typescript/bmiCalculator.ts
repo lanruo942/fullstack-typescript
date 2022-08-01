@@ -20,7 +20,7 @@ const parseArguments = (args: Array<string>): BodyTypes => {
 	} else {
 		throw new Error('Provided values were not numbers!');
 	}
-}
+};
 
 const calculateBmi = (height: number, weight: number): string => {
 	height = height / 100;
