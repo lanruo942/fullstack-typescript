@@ -10,7 +10,6 @@ const options: cors.CorsOptions = {
 	origin: allowedOrigins,
 };
 
-// eslint-disable-next-line @typescript-eslint/no-unsafe-call
 app.use(cors(options));
 app.use(express.json());
 
