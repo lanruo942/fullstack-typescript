@@ -2,7 +2,7 @@
  * @Author: Summer Lee
  * @Date: 2022-08-03 13:25:47
  * @LastEditors: Summer Lee lee@summer.today
- * @LastEditTime: 2022-08-03 14:34:32
+ * @LastEditTime: 2022-08-04 16:27:34
  */
 import { CoursePart } from "../types";
 
