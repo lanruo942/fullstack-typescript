@@ -18,7 +18,7 @@
     "noEmit": true,
     "jsx": "react-jsx",
     "downlevelIteration": true,
-    "allowJs": true,
+    "allowJs": false,
     "noFallthroughCasesInSwitch": true,
     "useUnknownInCatchVariables": false
   },

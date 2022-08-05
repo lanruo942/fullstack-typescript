@@ -1,3 +1,9 @@
+/*
+ * @Author: Summer Lee
+ * @Date: 2022-08-02 10:19:26
+ * @LastEditors: Summer Lee lee@summer.today
+ * @LastEditTime: 2022-08-05 01:06:37
+ */
 import { State } from "./state";
 import { Patient } from "../types";
 
@@ -8,6 +14,10 @@ export type Action =
     }
   | {
       type: "ADD_PATIENT";
+      payload: Patient;
+    }
+  | {
+      type: "SET_PATIENT_ENTRY";
       payload: Patient;
     };
 
@@ -21,17 +31,25 @@ export const reducer = (state: State, action: Action): State => {
             (memo, patient) => ({ ...memo, [patient.id]: patient }),
             {}
           ),
-          ...state.patients
-        }
+          ...state.patients,
+        },
       };
     case "ADD_PATIENT":
       return {
         ...state,
         patients: {
           ...state.patients,
-          [action.payload.id]: action.payload
-        }
+          [action.payload.id]: action.payload,
+        },
       };
+		case "SET_PATIENT_ENTRY":
+			return {
+				...state,
+				patients: {
+					...state.patients,
+					[action.payload.id]: action.payload,
+				},
+			};
     default:
       return state;
   }
