@@ -7,7 +7,7 @@
 import axios from "axios";
 import { Patient } from "../types";
 import { apiBaseUrl } from "../constants";
-import { useStateValue } from "../state";
+import { setPatientEntry, useStateValue } from "../state";
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { Female as FemaleIcon, Male as MaleIcon } from "@mui/icons-material";
@@ -24,7 +24,7 @@ const PatientInfoPage = () => {
           const { data: patient } = await axios.get<Patient>(
             `${apiBaseUrl}/patients/${id}`
           );
-          dispatch({ type: "SET_PATIENT_ENTRY", payload: patient });
+          dispatch(setPatientEntry(patient));
           setStatus(true);
         } catch (e: unknown) {
           if (axios.isAxiosError(e)) {
