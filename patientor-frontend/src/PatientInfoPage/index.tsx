@@ -5,7 +5,7 @@
  * @LastEditTime: 2022-08-05 02:24:27
  */
 import axios from "axios";
-import { Patient } from "../types";
+import { Patient, Diagnose, Entry } from "../types";
 import { apiBaseUrl } from "../constants";
 import { setPatientEntry, useStateValue } from "../state";
 import { useParams } from "react-router-dom";
@@ -14,7 +14,7 @@ import { Female as FemaleIcon, Male as MaleIcon } from "@mui/icons-material";
 
 const PatientInfoPage = () => {
   const [status, setStatus] = useState<boolean>(false);
-  const [{ patients }, dispatch] = useStateValue();
+  const [{ patients, diagnoses }, dispatch] = useStateValue();
   const { id } = useParams<{ id: string }>();
 
   useEffect(() => {
@@ -52,6 +52,7 @@ const PatientInfoPage = () => {
     const patient = parsePatient(
       Object.values(patients).find((p: Patient) => p.id === id)
     );
+
     return (
       <div>
         <h2>
@@ -65,16 +66,24 @@ const PatientInfoPage = () => {
         {patient?.entries && patient.entries.length !== 0 && (
           <div>
             <h3>entries</h3>
-            {patient.entries.map((entry) => (
+            {patient.entries.map((entry: Entry) => (
               <div key={entry.id}>
                 <p>
                   {entry.date} {entry.description}
                 </p>
                 {entry?.diagnosisCodes && entry.diagnosisCodes.length !== 0 && (
                   <ul>
-                    {entry.diagnosisCodes.map((code) => (
-                      <li key={code}>{code}</li>
-                    ))}
+                    {entry.diagnosisCodes.map((code) => {
+                      const diagnoseName = Object.values(diagnoses).find(
+                        (d: Diagnose) => d.code === code
+                      )?.name;
+
+                      return (
+                        <li key={code}>
+                          {code} {diagnoseName}
+                        </li>
+                      );
+                    })}
                   </ul>
                 )}
               </div>
