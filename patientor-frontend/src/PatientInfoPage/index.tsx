@@ -59,9 +59,28 @@ const PatientInfoPage = () => {
           {patient.gender === "male" ? <MaleIcon /> : <FemaleIcon />}
         </h2>
         <div>
-          <p>ssh: {patient?.ssn}</p>
-          <p>occupation: {patient?.occupation}</p>
+          {patient?.ssn && <p>ssh: {patient?.ssn}</p>}
+          {patient?.occupation && <p>occupation: {patient?.occupation}</p>}
         </div>
+        {patient?.entries && patient.entries.length !== 0 && (
+          <div>
+            <h3>entries</h3>
+            {patient.entries.map((entry) => (
+              <div key={entry.id}>
+                <p>
+                  {entry.date} {entry.description}
+                </p>
+                {entry?.diagnosisCodes && entry.diagnosisCodes.length !== 0 && (
+                  <ul>
+                    {entry.diagnosisCodes.map((code) => (
+                      <li key={code}>{code}</li>
+                    ))}
+                  </ul>
+                )}
+              </div>
+            ))}
+          </div>
+        )}
       </div>
     );
   }
