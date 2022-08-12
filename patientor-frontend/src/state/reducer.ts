@@ -4,8 +4,8 @@
  * @LastEditors: Summer Lee lee@summer.today
  * @LastEditTime: 2022-08-05 01:06:37
  */
+import { Diagnose, Entry, Patient } from "../types";
 import { State } from "./state";
-import { Diagnose, Patient } from "../types";
 
 export type Action =
   | {
@@ -23,6 +23,13 @@ export type Action =
   | {
       type: "SET_DIAGNOSE_LIST";
       payload: Diagnose[];
+    }
+  | {
+      type: "ADD_ENTRY";
+      payload: {
+        id: string;
+        entry: Entry;
+      };
     };
 
 export const setPatientList = (patientList: Patient[]): Action => ({
@@ -45,6 +52,14 @@ export const setDiagnoseList = (diagnoseList: Diagnose[]): Action => ({
   payload: diagnoseList,
 });
 
+export const addEntry = (id: string, entry: Entry): Action => ({
+  type: "ADD_ENTRY",
+  payload: {
+    id,
+    entry,
+  },
+});
+
 export const reducer = (state: State, action: Action): State => {
   switch (action.type) {
     case "SET_PATIENT_LIST":
@@ -59,13 +74,6 @@ export const reducer = (state: State, action: Action): State => {
         },
       };
     case "ADD_PATIENT":
-      return {
-        ...state,
-        patients: {
-          ...state.patients,
-          [action.payload.id]: action.payload,
-        },
-      };
     case "SET_PATIENT_ENTRY":
       return {
         ...state,
@@ -83,6 +91,20 @@ export const reducer = (state: State, action: Action): State => {
             {}
           ),
           ...state.diagnoses,
+        },
+      };
+    case "ADD_ENTRY":
+      return {
+        ...state,
+        patients: {
+          ...state.patients,
+          [action.payload.id]: {
+            ...state.patients[action.payload.id],
+            entries: [
+              ...state.patients[action.payload.id].entries || [],
+              action.payload.entry,
+            ],
+          },
         },
       };
     default:
