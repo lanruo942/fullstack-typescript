@@ -1,4 +1,4 @@
-import { Entry } from "../types";
+import { Entry, EntryType } from "../types";
 import HospitalEntryDetails from "./HospitalEntryDetails";
 import OccupationalHealthcareEntryDetails from "./OccupationalHealthcareEntryDetails";
 import HealthCheckEntryDetails from "./HealthCheckEntryDetails";
@@ -11,11 +11,11 @@ const assertNever = (value: never): never => {
 
 const EntryDetails = ({ entry }: { entry: Entry }) => {
   switch (entry.type) {
-    case "Hospital":
+    case EntryType.Hospital:
       return <HospitalEntryDetails entry={entry} />;
-    case "OccupationalHealthcare":
+    case EntryType.OccupationalHealthcare:
       return <OccupationalHealthcareEntryDetails entry={entry} />;
-    case "HealthCheck":
+    case EntryType.HealthCheck:
       return <HealthCheckEntryDetails entry={entry} />;
     default:
       return assertNever(entry);

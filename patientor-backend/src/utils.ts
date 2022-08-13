@@ -130,9 +130,9 @@ const parseDischarge = (discharge: unknown): Discharge => {
 const isSickLeave = (sickLeave: unknown): sickLeave is SickLeave => {
 	if (
 		!sickLeave ||
-		!(typeof sickLeave === 'object') ||
-		!('startDate' in sickLeave) ||
-		!('endDate' in sickLeave)
+		!(typeof sickLeave === 'object') // ||
+		// !('startDate' in sickLeave) ||
+		// !('endDate' in sickLeave)
 	) {
 		return false;
 	}
@@ -149,17 +149,17 @@ const parseSickLeave = (sickLeave: unknown): SickLeave | undefined => {
 		throw new Error('Incorrect or missing sickLeave: ' + sickLeave);
 	}
 
-	if (!sickLeave.startDate || !isString(sickLeave.startDate)) {
-		throw new Error(
-			'Incorrect or missing sickLeave.startDate: ' + sickLeave.startDate
-		);
-	}
-
-	if (!sickLeave.endDate || !isString(sickLeave.endDate)) {
-		throw new Error(
-			'Incorrect or missing sickLeave.endDate: ' + sickLeave.endDate
-		);
-	}
+	// if (!sickLeave.startDate || !isString(sickLeave.startDate)) {
+	// 	throw new Error(
+	// 		'Incorrect or missing sickLeave.startDate: ' + sickLeave.startDate
+	// 	);
+	// }
+ //
+	// if (!sickLeave.endDate || !isString(sickLeave.endDate)) {
+	// 	throw new Error(
+	// 		'Incorrect or missing sickLeave.endDate: ' + sickLeave.endDate
+	// 	);
+	// }
 
 	return sickLeave;
 };

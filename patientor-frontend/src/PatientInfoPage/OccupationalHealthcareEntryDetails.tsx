@@ -32,6 +32,17 @@ const OccupationalHealthcareEntryDetails = ({
           })}
         </ul>
       )}
+      {(entry.sickLeave?.startDate || entry.sickLeave?.endDate) && (
+        <>
+          <p>Sick Leave</p>
+          <ul>
+            {entry.sickLeave.startDate && (
+              <li>start: {entry.sickLeave.startDate}</li>
+            )}
+            {entry.sickLeave.endDate && <li>end: {entry.sickLeave.endDate}</li>}
+          </ul>
+        </>
+      )}
       <p>diagnose by {entry.specialist}</p>
     </div>
   );

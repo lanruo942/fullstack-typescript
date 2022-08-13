@@ -7,7 +7,13 @@ import {
   TextField as TextFieldMUI,
   Typography,
 } from "@material-ui/core";
-import { ErrorMessage, FieldProps, FormikProps } from "formik";
+import {
+  ErrorMessage,
+  FieldProps,
+  FormikProps,
+  useField,
+  FieldHookConfig,
+} from "formik";
 import { useState } from "react";
 import { Diagnose } from "../types";
 
@@ -48,6 +54,93 @@ export const DateField = ({ field, label }: DateProps) => {
   );
 };
 
+interface NumberProps extends FieldProps {
+  label: string;
+  min: number;
+  max: number;
+  setFieldValue: FormikProps<{ diagnosisCodes: string[] }>["setFieldValue"];
+  setFieldTouched: FormikProps<{ diagnosisCodes: string[] }>["setFieldTouched"];
+}
+
+export const NumberField = ({
+  field,
+  label,
+  min,
+  max,
+  setFieldValue,
+  setFieldTouched,
+}: NumberProps) => {
+  const [value, setValue] = useState<number | "">(0);
+
+  return (
+    <div style={{ marginBottom: "1em" }}>
+      <TextFieldMUI
+        fullWidth
+        label={label}
+        placeholder={String(min)}
+        type="number"
+        {...field}
+        value={value}
+        onChange={(e) => {
+          let value = +e.target.value;
+          if (value === undefined || isNaN(value) || e.target.value === "") {
+            setValue("");
+            setFieldValue(field.name, undefined);
+            return;
+          }
+          if (value > max) value = max;
+          else if (value <= min) value = min;
+          else value = Math.round(value);
+          setValue(value);
+          setFieldValue(field.name, value);
+          setFieldTouched(field.name, true);
+        }}
+      />
+      <Typography variant="subtitle2" style={{ color: "red" }}>
+        <ErrorMessage name={field.name} />
+      </Typography>
+    </div>
+  );
+};
+
+export interface TypeOption {
+  value: string;
+  label: string;
+}
+
+interface TypesFieldProps {
+  label: string;
+  options: TypeOption[];
+  typeChange: (type: string) => void;
+}
+
+export const TypesField = ({
+  label,
+  options,
+  typeChange,
+  ...props
+}: TypesFieldProps & FieldHookConfig<string>) => {
+  const [field] = useField(props);
+  return (
+    <div>
+      <InputLabel>{label}</InputLabel>
+      <Select
+        fullWidth
+        style={{ marginBottom: "0.5em" }}
+        label={label}
+        {...field}
+        onChange={(e): void => typeChange(e.target.value as string)}
+      >
+        {options.map((option) => (
+          <MenuItem key={option.value} value={option.value}>
+            {option.label || option.value}
+          </MenuItem>
+        ))}
+      </Select>
+    </div>
+  );
+};
+
 export const DiagnosisSelection = ({
   name,
   diagnoses,
@@ -60,12 +153,11 @@ export const DiagnosisSelection = ({
   setFieldTouched: FormikProps<{ diagnosisCodes: string[] }>["setFieldTouched"];
 }) => {
   const [selectedDiagnoses, setSelectedDiagnoses] = useState<string[]>([]);
-  const field = "diagnosisCodes";
 
   const onChange = (data: string[]) => {
     setSelectedDiagnoses([...data]);
-    setFieldValue(field, selectedDiagnoses);
-    setFieldTouched(field, true);
+    setFieldValue(name, data);
+    setFieldTouched(name, true);
   };
 
   const stateOptions = diagnoses.map((diagnose) => ({
